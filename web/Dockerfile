@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-RUN apt-get update && apt-get install -y nginx
+RUN apt-get update && apt-get install -y nginx git bc
 
 RUN rm /etc/nginx/sites-enabled/default
 RUN ln -s /etc/nginx/sites-available/mattermost /etc/nginx/sites-enabled/mattermost
@@ -13,8 +13,10 @@ ADD docker-entry.sh /
 #ADD cert/private/key-no-password.pem /cert/
 
 RUN chmod +x /docker-entry.sh
-RUN mkdir /etc/letsencrypt
 
+RUN git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
+#RUN cd /opt/letsencrypt&&./letsencrypt-auto --text -v
+RUN echo "cd /opt/letsencrypt&&./letsencrypt-auto --text certonly -a webroot --agree-tos --renew-by-default --webroot-path=/usr/share/nginx/html -d mm.miletwo.us" >> getcert.sh
 # Define mountable directories.
 VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
 
