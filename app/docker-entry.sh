@@ -4,15 +4,15 @@ echo -ne "Configure database connection..."
 if [ ! -f $config ]
 then
     cp /config.template.json $config
-    sed -Ei "s/PG_ADDR/$PG_PORT_5432_TCP_ADDR/" $config
-    sed -Ei "s/PG_PORT/$PG_PORT_5432_TCP_PORT/" $config
+    sed -Ei "s/DB_ADDR/$DB_PORT_3306_TCP_ADDR/" $config
+    sed -Ei "s/DB_PORT/$DB_PORT_3306_TCP_PORT/" $config
     echo OK
 else
     echo SKIP
 fi
 
 echo -n "Wait until database is ready..."
-until nc -z $PG_PORT_5432_TCP_ADDR $PG_PORT_5432_TCP_PORT
+until nc -z $DB_PORT_3306_TCP_ADDR $DB_PORT_3306_TCP_PORT
 do
     echo -n .
     sleep 1

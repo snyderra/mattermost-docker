@@ -8,11 +8,12 @@ RUN ln -s /etc/nginx/sites-available/mattermost /etc/nginx/sites-enabled/matterm
 ADD mattermost /etc/nginx/sites-available/
 ADD docker-entry.sh /
 
-RUN mkdir /cert
-ADD cert/cert.pem /cert/
-ADD cert/private/key-no-password.pem /cert/
+#RUN mkdir /cert
+#ADD cert/cert.pem /cert/
+#ADD cert/private/key-no-password.pem /cert/
 
 RUN chmod +x /docker-entry.sh
+RUN mkdir /etc/letsencrypt
 
 # Define mountable directories.
 VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
